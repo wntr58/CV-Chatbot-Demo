@@ -17,16 +17,41 @@ st.set_page_config(
 # ==================== ÖZEL CSS STİLLERİ ====================
 st.markdown("""
 <style>
+    /* Tema uyumlu arka plan renkleri */
+    [data-testid="stSidebar"] {
+        background-color: var(--background-color);
+        border-right: 1px solid var(--border-color);
+    }
+    
+    /* Light mode için */
+    @media (prefers-color-scheme: light) {
+        [data-testid="stSidebar"] {
+            background-color: #F8FAFC;
+            border-right: 1px solid #E2E8F0;
+        }
+    }
+    
+    /* Dark mode için */
+    @media (prefers-color-scheme: dark) {
+        [data-testid="stSidebar"] {
+            background-color: #1E293B;
+            border-right: 1px solid #334155;
+        }
+    }
+    
     /* Ana başlık stili */
     .main-header {
         font-size: 2.5rem;
         font-weight: bold;
-        color: #1E3A8A;
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        background-clip: text;
         text-align: center;
         margin-bottom: 1rem;
     }
     
-    /* Alt başlık stili */
+    /* Alt başlık stili - tema uyumlu */
     .sub-header {
         font-size: 1.2rem;
         color: #64748B;
@@ -34,7 +59,7 @@ st.markdown("""
         margin-bottom: 2rem;
     }
     
-    /* Niyet badge'i */
+    /* Niyet badge'leri */
     .intent-badge {
         display: inline-block;
         padding: 4px 12px;
@@ -48,10 +73,15 @@ st.markdown("""
     .intent-yazilim { background-color: #D1FAE5; color: #065F46; }
     .intent-staj { background-color: #FEF3C7; color: #92400E; }
     .intent-egitim { background-color: #E9D5FF; color: #6B21A8; }
+    .intent-iletisim { background-color: #FCE7F3; color: #9F1239; }
     
-    /* Sidebar iyileştirmeleri */
-    [data-testid="stSidebar"] {
-        background-color: #F8FAFC;
+    /* Dark mode için badge renkleri */
+    @media (prefers-color-scheme: dark) {
+        .intent-plc { background-color: #1E3A8A; color: #BFDBFE; }
+        .intent-yazilim { background-color: #064E3B; color: #A7F3D0; }
+        .intent-staj { background-color: #78350F; color: #FEF3C7; }
+        .intent-egitim { background-color: #581C87; color: #E9D5FF; }
+        .intent-iletisim { background-color: #831843; color: #FCE7F3; }
     }
     
     /* Buton stili */
@@ -59,6 +89,12 @@ st.markdown("""
         width: 100%;
         border-radius: 8px;
         font-weight: 600;
+        transition: all 0.3s ease;
+    }
+    
+    .stButton>button:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 4px 12px rgba(0,0,0,0.15);
     }
     
     /* Chat input stili */
@@ -66,13 +102,34 @@ st.markdown("""
         border-radius: 12px;
     }
     
-    /* Metrik kartları */
-    .metric-card {
-        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-        padding: 1rem;
-        border-radius: 12px;
-        color: white;
-        margin-bottom: 1rem;
+    /* Scrollbar stilini iyileştir */
+    ::-webkit-scrollbar {
+        width: 8px;
+        height: 8px;
+    }
+    
+    ::-webkit-scrollbar-track {
+        background: transparent;
+    }
+    
+    ::-webkit-scrollbar-thumb {
+        background: #CBD5E1;
+        border-radius: 4px;
+    }
+    
+    ::-webkit-scrollbar-thumb:hover {
+        background: #94A3B8;
+    }
+    
+    /* Dark mode için scrollbar */
+    @media (prefers-color-scheme: dark) {
+        ::-webkit-scrollbar-thumb {
+            background: #475569;
+        }
+        
+        ::-webkit-scrollbar-thumb:hover {
+            background: #64748B;
+        }
     }
 </style>
 """, unsafe_allow_html=True)
@@ -118,13 +175,22 @@ def load_training_data():
             "Üniversitenin adı ne?", "Lisans derecen nedir?", "Okulun hakkında bilgi ver.",
             "Mezun olduğun okul neresi?", "Eğitim durumun nedir?", 
             "Üniversite eğitimin hakkında konuşalım.", "Okulun nerede?",
-            "Hangi bölümden mezunsun?", "Akademik geçmişin nedir?", "Mezuniyet yılın ne?"
+            "Hangi bölümden mezunsun?", "Akademik geçmişin nedir?", "Mezuniyet yılın ne?",
+            
+            # İletişim & Kişisel Bilgiler (15 örnek)
+            "Sana nasıl ulaşabilirim?", "İletişim bilgilerin neler?", "Mail adresin ne?",
+            "Telefon numaran var mı?", "Nerede yaşıyorsun?", "LinkedIn profilin var mı?",
+            "Seninle nasıl iletişime geçebilirim?", "İletişim bilgilerini verir misin?",
+            "Yaşın kaç?", "Doğum tarihin ne?", "Medeni durumun nedir?",
+            "Askerlik durumun ne?", "Ehliyet var mı?", "Hangi dilleri konuşuyorsun?",
+            "İngilizce seviyen nedir?"
         ],
         'niyet': (
             ['PLC'] * 15 + 
             ['Yazılım'] * 25 + 
             ['Staj'] * 12 + 
-            ['Eğitim'] * 15
+            ['Eğitim'] * 15 +
+            ['İletişim'] * 15
         )
     }
     return pd.DataFrame(data)
@@ -158,19 +224,20 @@ CEVAPLAR = {
 **💻 Yazılım & Tasarım Yetkinliklerim:**
 
 📌 **Programlama Dilleri:**
-   • Python (İleri Seviye) - Veri analizi, otomasyon, görüntü işleme
+   • Python (İyi Seviye) - Veri analizi, otomasyon, görüntü işleme
    • C/C++ (İyi Seviye) - Gömülü sistemler, algoritma geliştirme
-   • SQL (MS SQL) - Veri tabanı yönetimi ve sorgulama
+   • SQL (MS SQL - İyi Seviye) - Veri tabanı yönetimi ve sorgulama
 
 📌 **CAD & Tasarım Yazılımları:**
-   • SolidWorks - Mekanik tasarım ve montaj
-   • AutoCAD - Teknik çizim ve 2D tasarım
-   • E-Plan - Elektrik şema tasarımı (temel seviye)
-   • MATLAB/Simulink - Simülasyon ve analiz
+   • SolidWorks (İyi) - Mekanik tasarım ve montaj
+   • AutoCAD (İyi) - Teknik çizim ve 2D tasarım
+   • E-Plan (Temel) - Elektrik şema tasarımı
+   • MATLAB/Simulink (İyi) - Simülasyon ve analiz
+   • Ofis Programları (İyi) - MS Office Suite
 
 📌 **Robot & Otomasyon:**
-   • ROS2 (Robot Operating System 2) - Robot yazılım geliştirme
-   • Görüntü İşleme - OpenCV, Computer Vision algoritmaları
+   • ROS2 (İyi Seviye) - Robot Operating System 2
+   • Görüntü İşleme (İyi Seviye) - OpenCV, Computer Vision
    • Sensör Füzyonu - Çoklu sensör verisi entegrasyonu
 
 📌 **Öne Çıkan Proje:**
@@ -185,19 +252,25 @@ CEVAPLAR = {
         'detayli': """
 **🏢 İş Deneyimim:**
 
-📌 **Vanderlande Stajı:**
-   • Büyük ölçekli lojistik otomasyon sistemleri
-   • Siemens PLC ve TIA Portal ile sistem programlama
-   • Konveyör sistemleri ve malzeme taşıma otomasyonu
-   • Saha operasyonları ve bakım desteği
-   • SCADA sistemleri ile gerçek zamanlı izleme
+📌 **Vanderlande Industries B.V. (Stajyer)**
+   📍 İstanbul Havalimanı, Lojistik/Otomasyon
+   📅 Ağustos 2025 - Eylül 2025
+   
+   • Bagaj taşıma ve lojistik otomasyon sistemlerinin saha operasyonlarına destek
+   • Siemens PLC (TIA Portal) kullanarak sistem izleme, hata tespiti ve temel müdahaleler
+   • Sensörler, motor sürücüleri ve konveyör hatlarının kontrolü üzerine uygulamalı deneyim
+   • Otomasyon ekibiyle birlikte arıza giderme, bakım ve sistem entegrasyonu çalışmaları
+   • SCADA ve HMI programlama deneyimi
 
-📌 **Neocom Stajı:**
-   • Zayıf akım sistemleri kurulumu ve entegrasyonu
-   • Güvenlik kamera sistemleri (CCTV)
-   • Yangın algılama ve anons sistemleri
-   • Yapısal kablolama ve sistem testleri
-   • Saha çalışması ve müşteri koordinasyonu
+📌 **Neocom İletişim Teknolojleri A.Ş. (Stajyer)**
+   📍 Kıbrıs Ercan Havalimanı – Zayıf Akım Sistemleri
+   📅 Haziran 2023 - Eylül 2023
+   
+   • Kamera sistemlerinin kurulumu, IP ataması, devreye alınması ve test edilmesi
+   • Yangın panelleri kurulumu, dedektör adresleme ve senaryo testleri
+   • Acil anons sistemlerinin devreye alınması, arıza tespiti ve giderilmesi
+   • Proje planlarına uygun saha uygulamaları, kablolama ve sistem entegrasyonu
+   • Yapılan işlerin raporlanıp bildirilmesi
 
 **🎯 Kazanılan Deneyimler:**
    ✓ Endüstriyel otomasyon sistemlerinde pratik deneyim
@@ -214,7 +287,8 @@ CEVAPLAR = {
 📌 **Lisans Eğitimi:**
    • **Üniversite:** Kocaeli Üniversitesi
    • **Bölüm:** Mekatronik Mühendisliği (%30 İngilizce)
-   • **Mezuniyet Yılı:** 2025
+   • **Dönem:** 2021 - 2025
+   • **Durum:** Mezun
    • **Konum:** Kocaeli, Türkiye
 
 📌 **Mekatronik Mühendisliği Uzmanlık Alanları:**
@@ -228,6 +302,30 @@ CEVAPLAR = {
    Mekatronik mühendisliği, makine, elektrik-elektronik ve bilgisayar 
    mühendisliğinin kesişim noktasında yer alır. Bu interdisipliner eğitim 
    sayesinde karmaşık sistemleri bütünsel olarak tasarlayıp geliştirebiliyorum.
+        """
+    },
+    'İletişim': {
+        'kisa': "E-posta: yahyaosman696@gmail.com | Telefon: 0506 115 68 45",
+        'detayli': """
+**📞 İletişim ve Kişisel Bilgilerim:**
+
+📌 **İletişim Bilgileri:**
+   • **E-posta:** yahyaosman696@gmail.com
+   • **Telefon:** 0506 115 68 45
+   • **Konum:** İstanbul / Beşiktaş
+   • **LinkedIn:** [linkedin.com/in/yahyaosmantamdogan](https://www.linkedin.com/in/yahyaosmantamdogan)
+
+📌 **Kişisel Bilgiler:**
+   • **Ad-Soyad:** Yahya Osman Tamdoğan
+   • **Doğum Tarihi:** 19.08.2003 (21 yaşında)
+   • **Medeni Durum:** Bekar
+   • **Askerlik Durumu:** 2 yıl tecilli
+   • **Sürücü Belgesi:** B sınıfı
+
+📌 **Yabancı Dil:**
+   • **İngilizce:** B2 Seviyesi (Orta-İleri)
+   
+💼 Profesyonel işbirlikleri ve kariyer fırsatları için benimle iletişime geçmekten çekinmeyin!
         """
     }
 }
@@ -254,6 +352,11 @@ ORNEK_SORULAR = {
         "Hangi üniversiteden mezunsun?",
         "Mekatronik mühendisliği nedir?",
         "Akademik geçmişin nasıl?"
+    ],
+    'İletişim': [
+        "Sana nasıl ulaşabilirim?",
+        "İletişim bilgilerin neler?",
+        "İngilizce seviyen nedir?"
     ]
 }
 
@@ -333,8 +436,21 @@ def main():
     
     # ==================== SIDEBAR ====================
     with st.sidebar:
-        st.image("https://cdn-icons-png.flaticon.com/512/3135/3135715.png", width=100)
-        st.markdown("### 👨‍💻 CV Asistanı Hakkında")
+        # Profil resmi - tema uyumlu
+        st.markdown("""
+        <div style='text-align: center; padding: 20px;'>
+            <div style='background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); 
+                        width: 120px; height: 120px; border-radius: 60px; 
+                        margin: 0 auto; display: flex; align-items: center; 
+                        justify-content: center; box-shadow: 0 4px 6px rgba(0,0,0,0.1);'>
+                <span style='font-size: 50px;'>👨‍💻</span>
+            </div>
+            <h3 style='margin-top: 15px; margin-bottom: 5px;'>Yahya Osman Tamdoğan</h3>
+            <p style='color: #64748B; font-size: 0.9rem;'>Mekatronik Mühendisi</p>
+        </div>
+        """, unsafe_allow_html=True)
+        
+        st.markdown("### 📋 CV Asistanı Hakkında")
         
         st.info(
             "Bu chatbot, **Yahya Osman Tamdoğan**'ın özgeçmişini yapay zeka "
@@ -351,11 +467,49 @@ def main():
         with col2:
             st.metric("Niyet Kategorisi", "4 adet")
         
-        # Hızlı Linkler
+        # İletişim Bilgileri
         st.markdown("---")
-        st.markdown("### 🔗 Hızlı Bağlantılar")
-        LINKEDIN_URL = "https://www.linkedin.com/in/yahyaosmantamdogan"
-        st.markdown(f"[![LinkedIn](https://img.shields.io/badge/LinkedIn-0077B5?style=for-the-badge&logo=linkedin&logoColor=white)]({LINKEDIN_URL})")
+        st.markdown("### 📞 İletişim Bilgileri")
+        
+        col1, col2 = st.columns([1, 4])
+        with col1:
+            st.markdown("📧")
+        with col2:
+            st.markdown("[yahyaosman696@gmail.com](mailto:yahyaosman696@gmail.com)")
+        
+        col1, col2 = st.columns([1, 4])
+        with col1:
+            st.markdown("📱")
+        with col2:
+            st.markdown("0506 115 68 45")
+        
+        col1, col2 = st.columns([1, 4])
+        with col1:
+            st.markdown("📍")
+        with col2:
+            st.markdown("İstanbul / Beşiktaş")
+        
+        col1, col2 = st.columns([1, 4])
+        with col1:
+            st.markdown("💼")
+        with col2:
+            LINKEDIN_URL = "https://www.linkedin.com/in/yahyaosmantamdogan"
+            st.markdown(f"[LinkedIn Profilim]({LINKEDIN_URL})")
+        
+        # Yabancı Dil
+        st.markdown("---")
+        st.markdown("### 🌍 Yabancı Dil")
+        st.markdown("🇬🇧 **İngilizce:** B2 (Orta-İleri)")
+        
+        # Kişisel Bilgiler
+        st.markdown("---")
+        st.markdown("### 👤 Kişisel Bilgiler")
+        st.markdown("""
+        - **Doğum Tarihi:** 19.08.2003
+        - **Medeni Durum:** Bekar
+        - **Askerlik:** 2 yıl tecilli
+        - **Sürücü Belgesi:** B sınıfı
+        """)
         
         # Örnek Sorular
         st.markdown("---")
@@ -363,7 +517,7 @@ def main():
         
         kategori = st.selectbox(
             "Kategori seçin:",
-            ['PLC', 'Yazılım', 'Staj', 'Eğitim']
+            ['PLC', 'Yazılım', 'Staj', 'Eğitim', 'İletişim']
         )
         
         for soru in ORNEK_SORULAR[kategori]:
@@ -396,7 +550,7 @@ def main():
     if "istatistikler" not in st.session_state:
         st.session_state.istatistikler = {
             'toplam_soru': 0,
-            'niyet_dagilim': {'PLC': 0, 'Yazılım': 0, 'Staj': 0, 'Eğitim': 0}
+            'niyet_dagilim': {'PLC': 0, 'Yazılım': 0, 'Staj': 0, 'Eğitim': 0, 'İletişim': 0}
         }
     
     # Hoş geldin mesajı
@@ -410,6 +564,7 @@ Aşağıdaki konularda bana soru sorabilirsiniz:
 - 💻 **Yazılım ve Programlama** becerileri  
 - 🏢 **Staj ve İş** deneyimleri
 - 🎓 **Eğitim** geçmişi
+- 📞 **İletişim ve Kişisel** bilgiler
 
 Soldaki menüden örnek sorulara göz atabilir veya doğrudan soru sorabilirsiniz!
             """)
