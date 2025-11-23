@@ -5,6 +5,7 @@ import pandas as pd
 import numpy as np
 
 # --- 1. GÜÇLENDİRİLMİŞ VERİ KÜMESİ (Niyet Tanıma İçin) ---
+# Eğitim ve Yazılım niyetleri güçlendirilmiştir.
 data = {
     'soru': [
         # PLC
@@ -42,12 +43,12 @@ X_vectorized = vectorizer.fit_transform(df['soru'])
 model = LinearSVC()
 model.fit(X_vectorized, df['niyet'])
 
-# --- 3. KURUMSAL CEVAP HAVUZU ---
+# --- 3. KURUMSAL CEVAP HAVUZU (CV'deki bilgilere göre) ---
 CEVAPLAR = {
-    'PLC': "**Otomasyon Kontrol Sistemleri:** Vanderlande stajımda **Siemens PLC (TIA Portal)** kullanarak sistem izleme ve temel müdahaleler yaptım. Ayrıca **SCADA ve HMI** arayüz programlama prensiplerini uyguladım.",
-    'Yazılım': "**Geliştirme Yetkinlikleri:** Python, C/C++ ve MS SQL gibi dillerde iyi seviyede yetkinliğe sahibim. Otomasyon projelerindeki güçlü yönlerim arasında özellikle **Görüntü İşleme** ve **ROS2 (Robot İşletim Sistemi)** tecrübesi yer almaktadır.",
-    'Staj': "**Saha Deneyimi:** Neocom'da **Zayıf Akım Sistemleri** (Kamera/Yangın/Anons) ve Vanderlande'da büyük ölçekli **Lojistik Otomasyon sistemlerinde** saha operasyonlarına destek vererek pratik tecrübe kazandım.",
-    'Eğitim': "**Lisans Eğitimi:** Kocaeli Üniversitesi **Mekatronik Mühendisliği** (%30 İngilizce) bölümünden 2025 yılında başarıyla mezun oldum. Mühendislik temelimi bu alanda sağlamlaştırdım."
+    [cite_start]'PLC': "**Otomasyon Kontrol Sistemleri:** Vanderlande stajımda **Siemens PLC (TIA Portal)** kullanarak sistem izleme ve temel müdahaleler yaptım[cite: 39]. [cite_start]Ayrıca **Scada ve HMI** arayüz programlama prensiplerini uyguladım[cite: 42].",
+    [cite_start]'Yazılım': "**Geliştirme Yetkinlikleri:** Python, C/C++ ve MS SQL gibi dillerde iyi seviyede yetkinliğe sahibim[cite: 17, 18, 26]. [cite_start]Otomasyon projelerindeki güçlü yönlerim arasında özellikle **Görüntü İşleme** ve **ROS2 (Robot İşletim Sistemi)** tecrübesi yer almaktadır[cite: 24, 25].",
+    [cite_start]'Staj': "**Saha Deneyimi:** Neocom'da **Zayıf Akım Sistemleri** (Kamera/Yangın/Anons) [cite: 32, 33, 34] [cite_start]ve Vanderlande'da büyük ölçekli **Lojistik Otomasyon sistemlerinde** saha operasyonlarına destek vererek pratik tecrübe kazandım[cite: 38].",
+    [cite_start]'Eğitim': "**Lisans Eğitimi:** Kocaeli Üniversitesi **Mekatronik Mühendisliği** (%30 İngilizce) bölümünden 2025 yılında başarıyla mezun oldum[cite: 10]. Mühendislik temelimi bu alanda sağlamlaştırdım."
 }
 
 def niyet_siniflandir_ve_cevapla(soru):
@@ -59,20 +60,21 @@ def niyet_siniflandir_ve_cevapla(soru):
 # --- 4. STREAMLIT ARAYÜZÜ ---
 st.set_page_config(page_title="Yahya Osman Tamdoğan CV Chatbot", layout="wide")
 
-# **ÖNEMLİ DÜZELTME:** Lütfen bu adresi kendi gerçek LinkedIn URL'nizle değiştirin!
+# **ÖNEMLİ:** Lütfen bu adresi kendi gerçek LinkedIn URL'nizle değiştirin!
 LINKEDIN_URL = "https://www.linkedin.com/in/yahyaosmantamdogan" 
 
 # Kenar çubuğu (Sidebar)
 with st.sidebar:
-    st.header("🤖 CV Asistanı Hakkında") # Kırık görsel kaldırıldı, emoji eklendi
+    # Kırık görsel kaldırıldı, yerine sadece başlık ve emoji kullanıldı.
+    st.header("🤖 CV Asistanı Hakkında") 
     st.info(
-        [cite_start]"Bu Chatbot, Yahya Osman Tamdoğan'ın özgeçmişini [cite: 2, 44] temel alarak geliştirilmiş bir prototiptir. "
+        "Bu Chatbot, Yahya Osman Tamdoğan'ın özgeçmişini temel alarak geliştirilmiş bir prototiptir. "
         "Sorularınızı **PLC, Yazılım, Staj veya Eğitim** niyetlerinden birine göre sınıflandırarak yanıtlar."
     )
     st.markdown("---")
     
     st.subheader("Hızlı Bağlantılar")
-    # LinkedIn linki HTML formatına geçirildi ve yeni sekmede açılacak şekilde düzenlendi.
+    # LinkedIn linki, çalışmama sorununu gidermek için HTML formatına geçirildi.
     st.markdown(f"**LinkedIn:** <a href='{LINKEDIN_URL}' target='_blank'>Yahya Osman Tamdoğan LinkedIn Profilim</a>", unsafe_allow_html=True)
     
     # Sohbeti Temizle Butonu
