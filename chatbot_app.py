@@ -1,34 +1,60 @@
 import streamlit as st
+from sklearn.feature_extraction.text import TfidfVectorizer
+from sklearn.svm import LinearSVC
+import pandas as pd
+import numpy as np
 
-# --- CV Bilgi Havuzu ---
-# Bu kısım, CV'nizden manuel olarak çıkarılmıştır
-CV_BILGILERI = {
-    "plc": "Vanderlande stajında Siemens PLC (TIA Portal) kullandım. Ayrıca SCADA ve HMI programlama tecrübem var.",
-    "python": "Python, C/C++ ve MS SQL'de iyiyim. Ayrıca Görüntü İşleme ve ROS2 tecrübem var.",
-    "tecrübe": "Neocom (Zayıf Akım Sistemleri) ve Vanderlande (Lojistik/Otomasyon) şirketlerinde staj yaptım.",
-    "mekatronik": "Kocaeli Üniversitesi Mekatronik Mühendisliği mezunuyum.",
-    "ingilizce": "İngilizce seviyem B2'dir.",
-    "neocom": "Kamera sistemleri kurulumu, yangın panelleri ve acil anons sistemleri devreye alınmasında çalıştım.",
-    "vanderlande": "Bagaj taşıma sistemleri otomasyonunda saha operasyonlarına destek verdim."
+# --- 1. VERİ KÜMESİ (TRAINING DATA) ---
+# Sorular (X) ve Niyetler (y)
+data = {
+    'soru': [
+        "PLC deneyimin var mı?", "TIA Portal biliyor musun?", "Siemens otomasyon tecrüben nedir?", 
+        "HMI programlamayı biliyor musun?", "Python'da iyi misin?", "Hangi yazılım dillerini biliyorsun?",
+        "Görüntü İşleme projen var mı?", "ROS2 ile çalıştın mı?", "Vanderlande stajında ne yaptın?",
+        "Neocom'da ne gibi işler yaptın?", "Staj tecrübelerinden bahseder misin?", "Eğitim bilgilerini alabilir miyim?",
+        "Hangi üniversiteden mezunsun?", "Mekatronik bilgin nedir?"
+    ],
+    'niyet': [
+        'PLC', 'PLC', 'PLC', 
+        'PLC', 'Yazılım', 'Yazılım', 
+        'Yazılım', 'Yazılım', 'Staj', 
+        'Staj', 'Staj', 'Eğitim', 
+        'Eğitim', 'Eğitim'
+    ]
 }
 
+df = pd.DataFrame(data)
 
-def chatbot_cevap_uret(soru):
-    soru_kucuk = soru.lower()
+# --- 2. MODEL EĞİTİMİ (Training) ---
+# Basit bir metin sınıflandırma modeli eğitimi
+vectorizer = TfidfVectorizer()
+X_vectorized = vectorizer.fit_transform(df['soru'])
+model = LinearSVC()
+model.fit(X_vectorized, df['niyet'])
 
-    # Anahtar kelime eşleştirme ile cevap bulma
-    for anahtar, yanit in CV_BILGILERI.items():
-        if anahtar in soru_kucuk:
-            return yanit
+# --- 3. CEVAP HAVUZU (CV'den çıkarılan bilgiler [cite: 41-82]) ---
+CEVAPLAR = {
+    'PLC': "Vanderlande stajında Siemens PLC (TIA Portal) kullanarak sistem izleme ve temel müdahaleler yaptım. Ayrıca SCADA ve HMI programlama tecrübem var[cite: 79, 82].",
+    'Yazılım': "Python, C/C++ ve MS SQL gibi dillerde iyi seviyedeyim[cite: 57, 58, 66]. Özellikle Görüntü İşleme ve ROS2 tecrübem otomasyon alanında güçlü yönlerimdir[cite: 64, 65].",
+    'Staj': "Neocom'da Zayıf Akım Sistemleri (Kamera/Yangın/Anons) [cite: 71, 72, 73] ve Vanderlande'da Lojistik Otomasyon sistemlerinde çalıştım[cite: 77].",
+    'Eğitim': "Kocaeli Üniversitesi Mekatronik Mühendisliği (%30 İngilizce) bölümünden mezunum[cite: 50]."
+}
 
-    return "CV'deki bilgilerime özgü bir soru sorun (Örn: PLC, Python, Vanderlande). Unutmayın, ben sadece CV'mdeki bilgilere dayanarak cevap verebilen bir prototipim."
+def niyet_siniflandir_ve_cevapla(soru):
+    # Soruyu vektörleştir ve niyetini tahmin et
+    soru_vectorized = vectorizer.transform([soru])
+    tahmin_edilen_niyet = model.predict(soru_vectorized)[0]
+    
+    # Tahmin edilen niyete göre cevap ver
+    return CEVAPLAR.get(tahmin_edilen_niyet, "Ne yazık ki bu konudaki bilgiyi CV'mden tam olarak çıkaramadım. Lütfen farklı bir açıdan sorun.")
 
+# --- 4. STREAMLIT ARAYÜZÜ (Gelişmiş) ---
+st.set_page_config(page_title="Yahya Osman Tamdoğan CV Chatbot", layout="wide")
 
-# --- STREAMLIT ARAYÜZÜ ---
+st.title("🤖 Yahya Osman Tamdoğan CV Asistanı: Mekatronik Yetkinlikler")
+st.markdown("---")
+st.caption("Bu prototip, metin sınıflandırma modelini kullanarak soruları **PLC, Yazılım, Staj veya Eğitim** niyetlerinden birine göre yanıtlar.")
 
-st.title("Yahya Osman Tamdoğan CV Asistanı 🤖")
-st.markdown(
-    "Mekatronik Mühendisi Yahya Osman Tamdoğan'ın CV'sini [cite: 50] kullanarak bu prototip AI Chatbot geliştirilmiştir.")
 
 # Mesaj geçmişini tutma
 if "mesajlar" not in st.session_state:
@@ -39,14 +65,14 @@ for gonderici, mesaj in st.session_state.mesajlar:
     st.chat_message(gonderici).write(mesaj)
 
 # Kullanıcı girişi
-if prompt := st.chat_input("Bana Yahya Osman Tamdoğan'ın tecrübelerini sor..."):
+if prompt := st.chat_input("HMI tecrüben nedir?", disabled=(len(st.session_state.mesajlar) >= 20)):
     # Kullanıcının mesajını kaydet ve göster
     st.session_state.mesajlar.append(("user", prompt))
     st.chat_message("user").write(prompt)
-
+    
     # Chatbot cevabını al
-    cevap = chatbot_cevap_uret(prompt)
-
+    cevap = niyet_siniflandir_ve_cevapla(prompt)
+    
     # Chatbot cevabını kaydet ve göster
     st.session_state.mesajlar.append(("assistant", cevap))
-    st.chat_message("assistant").write(cevap)
+    st.chat_message("assistant").write(f"**Tahmin Edilen Niyet:** {model.predict(vectorizer.transform([prompt]))[0]}\n\n{cevap}")
