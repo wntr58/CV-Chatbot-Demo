@@ -14,126 +14,6 @@ st.set_page_config(
     initial_sidebar_state="expanded"
 )
 
-# ==================== ÖZEL CSS STİLLERİ ====================
-st.markdown("""
-<style>
-    /* Tema uyumlu arka plan renkleri */
-    [data-testid="stSidebar"] {
-        background-color: var(--background-color);
-        border-right: 1px solid var(--border-color);
-    }
-    
-    /* Light mode için */
-    @media (prefers-color-scheme: light) {
-        [data-testid="stSidebar"] {
-            background-color: #F8FAFC;
-            border-right: 1px solid #E2E8F0;
-        }
-    }
-    
-    /* Dark mode için */
-    @media (prefers-color-scheme: dark) {
-        [data-testid="stSidebar"] {
-            background-color: #1E293B;
-            border-right: 1px solid #334155;
-        }
-    }
-    
-    /* Ana başlık stili */
-    .main-header {
-        font-size: 2.5rem;
-        font-weight: bold;
-        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-        -webkit-background-clip: text;
-        -webkit-text-fill-color: transparent;
-        background-clip: text;
-        text-align: center;
-        margin-bottom: 1rem;
-    }
-    
-    /* Alt başlık stili - tema uyumlu */
-    .sub-header {
-        font-size: 1.2rem;
-        color: #64748B;
-        text-align: center;
-        margin-bottom: 2rem;
-    }
-    
-    /* Niyet badge'leri */
-    .intent-badge {
-        display: inline-block;
-        padding: 4px 12px;
-        border-radius: 12px;
-        font-size: 0.85rem;
-        font-weight: 600;
-        margin-top: 8px;
-    }
-    
-    .intent-plc { background-color: #DBEAFE; color: #1E40AF; }
-    .intent-yazilim { background-color: #D1FAE5; color: #065F46; }
-    .intent-staj { background-color: #FEF3C7; color: #92400E; }
-    .intent-egitim { background-color: #E9D5FF; color: #6B21A8; }
-    .intent-iletisim { background-color: #FCE7F3; color: #9F1239; }
-    
-    /* Dark mode için badge renkleri */
-    @media (prefers-color-scheme: dark) {
-        .intent-plc { background-color: #1E3A8A; color: #BFDBFE; }
-        .intent-yazilim { background-color: #064E3B; color: #A7F3D0; }
-        .intent-staj { background-color: #78350F; color: #FEF3C7; }
-        .intent-egitim { background-color: #581C87; color: #E9D5FF; }
-        .intent-iletisim { background-color: #831843; color: #FCE7F3; }
-    }
-    
-    /* Buton stili */
-    .stButton>button {
-        width: 100%;
-        border-radius: 8px;
-        font-weight: 600;
-        transition: all 0.3s ease;
-    }
-    
-    .stButton>button:hover {
-        transform: translateY(-2px);
-        box-shadow: 0 4px 12px rgba(0,0,0,0.15);
-    }
-    
-    /* Chat input stili */
-    .stChatInput>div {
-        border-radius: 12px;
-    }
-    
-    /* Scrollbar stilini iyileştir */
-    ::-webkit-scrollbar {
-        width: 8px;
-        height: 8px;
-    }
-    
-    ::-webkit-scrollbar-track {
-        background: transparent;
-    }
-    
-    ::-webkit-scrollbar-thumb {
-        background: #CBD5E1;
-        border-radius: 4px;
-    }
-    
-    ::-webkit-scrollbar-thumb:hover {
-        background: #94A3B8;
-    }
-    
-    /* Dark mode için scrollbar */
-    @media (prefers-color-scheme: dark) {
-        ::-webkit-scrollbar-thumb {
-            background: #475569;
-        }
-        
-        ::-webkit-scrollbar-thumb:hover {
-            background: #64748B;
-        }
-    }
-</style>
-""", unsafe_allow_html=True)
-
 # ==================== GÜÇLENDİRİLMİŞ VERİ SETİ ====================
 @st.cache_data
 def load_training_data():
@@ -367,7 +247,7 @@ def train_model():
     df = load_training_data()
     
     vectorizer = TfidfVectorizer(
-        ngram_range=(1, 2),  # Unigram ve bigram kullan
+        ngram_range=(1, 2),
         max_features=500,
         min_df=1
     )
@@ -385,23 +265,14 @@ def train_model():
 
 # ==================== YARDIMCI FONKSİYONLAR ====================
 def niyet_siniflandir(soru, vectorizer, model, X_train, df):
-    """
-    Gelişmiş niyet sınıflandırma: 
-    - Güven skoru hesaplama
-    - Benzerlik analizi
-    - Alternatif öneriler
-    """
+    """Gelişmiş niyet sınıflandırma"""
     soru_vectorized = vectorizer.transform([soru])
     tahmin = model.predict(soru_vectorized)[0]
     
-    # Karar fonksiyonu skorları (güven seviyesi için)
     decision_scores = model.decision_function(soru_vectorized)[0]
-    
-    # En yüksek skoru bul
     max_score = np.max(decision_scores)
-    confidence = 1 / (1 + np.exp(-max_score))  # Sigmoid ile normalize et
+    confidence = 1 / (1 + np.exp(-max_score))
     
-    # Eğitim verileriyle benzerlik
     similarities = cosine_similarity(soru_vectorized, X_train)[0]
     max_similarity = np.max(similarities)
     most_similar_idx = np.argmax(similarities)
@@ -425,12 +296,137 @@ def get_intent_color(niyet):
         'PLC': '#1E40AF',
         'Yazılım': '#065F46',
         'Staj': '#92400E',
-        'Eğitim': '#6B21A8'
+        'Eğitim': '#6B21A8',
+        'İletişim': '#9F1239'
     }
     return colors.get(niyet, '#64748B')
 
+# ==================== ÖZEL CSS STİLLERİ ====================
+def apply_custom_css():
+    st.markdown("""
+    <style>
+        /* Tema uyumlu arka plan renkleri */
+        [data-testid="stSidebar"] {
+            background-color: var(--background-color);
+            border-right: 1px solid var(--border-color);
+        }
+        
+        /* Light mode için */
+        @media (prefers-color-scheme: light) {
+            [data-testid="stSidebar"] {
+                background-color: #F8FAFC;
+                border-right: 1px solid #E2E8F0;
+            }
+        }
+        
+        /* Dark mode için */
+        @media (prefers-color-scheme: dark) {
+            [data-testid="stSidebar"] {
+                background-color: #1E293B;
+                border-right: 1px solid #334155;
+            }
+        }
+        
+        /* Ana başlık stili */
+        .main-header {
+            font-size: 2.5rem;
+            font-weight: bold;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            text-align: center;
+            margin-bottom: 1rem;
+        }
+        
+        /* Alt başlık stili */
+        .sub-header {
+            font-size: 1.2rem;
+            color: #64748B;
+            text-align: center;
+            margin-bottom: 2rem;
+        }
+        
+        /* Niyet badge'leri */
+        .intent-badge {
+            display: inline-block;
+            padding: 4px 12px;
+            border-radius: 12px;
+            font-size: 0.85rem;
+            font-weight: 600;
+            margin-top: 8px;
+        }
+        
+        .intent-plc { background-color: #DBEAFE; color: #1E40AF; }
+        .intent-yazilim { background-color: #D1FAE5; color: #065F46; }
+        .intent-staj { background-color: #FEF3C7; color: #92400E; }
+        .intent-egitim { background-color: #E9D5FF; color: #6B21A8; }
+        .intent-iletisim { background-color: #FCE7F3; color: #9F1239; }
+        
+        /* Dark mode için badge renkleri */
+        @media (prefers-color-scheme: dark) {
+            .intent-plc { background-color: #1E3A8A; color: #BFDBFE; }
+            .intent-yazilim { background-color: #064E3B; color: #A7F3D0; }
+            .intent-staj { background-color: #78350F; color: #FEF3C7; }
+            .intent-egitim { background-color: #581C87; color: #E9D5FF; }
+            .intent-iletisim { background-color: #831843; color: #FCE7F3; }
+        }
+        
+        /* Buton stili */
+        .stButton>button {
+            width: 100%;
+            border-radius: 8px;
+            font-weight: 600;
+            transition: all 0.3s ease;
+        }
+        
+        .stButton>button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+        }
+        
+        /* Chat input stili */
+        .stChatInput>div {
+            border-radius: 12px;
+        }
+        
+        /* Scrollbar stilini iyileştir */
+        ::-webkit-scrollbar {
+            width: 8px;
+            height: 8px;
+        }
+        
+        ::-webkit-scrollbar-track {
+            background: transparent;
+        }
+        
+        ::-webkit-scrollbar-thumb {
+            background: #CBD5E1;
+            border-radius: 4px;
+        }
+        
+        ::-webkit-scrollbar-thumb:hover {
+            background: #94A3B8;
+        }
+        
+        /* Dark mode için scrollbar */
+        @media (prefers-color-scheme: dark) {
+            ::-webkit-scrollbar-thumb {
+                background: #475569;
+            }
+            
+            ::-webkit-scrollbar-thumb:hover {
+                background: #64748B;
+            }
+        }
+    </style>
+    """, unsafe_allow_html=True)
+
 # ==================== ANA UYGULAMA ====================
 def main():
+    # CSS uygula
+    apply_custom_css()
+    
     # Model yükleme
     vectorizer, model, X_train, df = train_model()
     
@@ -455,7 +451,7 @@ def main():
         st.info(
             "Bu chatbot, **Yahya Osman Tamdoğan**'ın özgeçmişini yapay zeka "
             "ile analiz ederek sorularınızı yanıtlar. Sorularınız otomatik olarak "
-            "kategorize edilir: **PLC, Yazılım, Staj, Eğitim**"
+            "kategorize edilir: **PLC, Yazılım, Staj, Eğitim, İletişim**"
         )
         
         # İstatistikler
@@ -465,7 +461,7 @@ def main():
         with col1:
             st.metric("Toplam Eğitim Verisi", f"{len(df)} soru")
         with col2:
-            st.metric("Niyet Kategorisi", "4 adet")
+            st.metric("Niyet Kategorisi", "5 adet")
         
         # İletişim Bilgileri
         st.markdown("---")
@@ -530,7 +526,7 @@ def main():
             st.session_state.mesajlar = []
             st.session_state.istatistikler = {
                 'toplam_soru': 0,
-                'niyet_dagilim': {'PLC': 0, 'Yazılım': 0, 'Staj': 0, 'Eğitim': 0}
+                'niyet_dagilim': {'PLC': 0, 'Yazılım': 0, 'Staj': 0, 'Eğitim': 0, 'İletişim': 0}
             }
             st.rerun()
         
