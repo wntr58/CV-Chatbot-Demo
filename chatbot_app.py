@@ -10,12 +10,13 @@ data = {
         # PLC
         "PLC deneyimin var mı?", "TIA Portal biliyor musun?", "Siemens otomasyon tecrüben nedir?", 
         "HMI programlamayı biliyor musun?", "Otomasyon becerilerin neler?", 
-        # Yazılım (Bitirme projesi ve SolidWorks soruları eklendi)
+        # Yazılım (CAD/Tasarım ve Proje soruları dahil edildi)
         "Python'da iyi misin?", "Hangi yazılım dillerini biliyorsun?", "Görüntü İşleme projen var mı?", 
         "ROS2 ile çalıştın mı?", "Sql biliyor musun?", "Kodlama yeteneklerin nelerdir?", "C++ bilgine ne dersin?", 
         "Hangi dilleri biliyorsun?", "Hangi programlama dillerinde yetkinsin?", "Programlama tecrüben nedir?",
         "Bitirme projen neydi?", "Otonom araç projesini anlatır mısın?", "Solidworks bilgin nedir?",
-        "Sensör füzyonu kullandın mı?", "Hangi CAD programlarını biliyorsun?",
+        "Sensör füzyonu kullandın mı?", "Hangi CAD programlarını biliyorsun?", "Tasarım yazılımların nelerdir?",
+        "Matlab kullanıyor musun?", "Autocad bilgin nedir?",
         # Staj
         "Vanderlande stajında ne yaptın?", "Neocom'da ne gibi işler yaptın?", "Staj tecrübelerinden bahseder misin?", 
         "Lojistik sistemlerde çalıştın mı?", "Neocom'daki görevin neydi?",
@@ -30,7 +31,8 @@ data = {
         'PLC', 'PLC', 'PLC', 'PLC', 'PLC', 
         # Yazılım
         'Yazılım', 'Yazılım', 'Yazılım', 'Yazılım', 'Yazılım', 'Yazılım', 'Yazılım', 'Yazılım', 
-        'Yazılım', 'Yazılım', 'Yazılım', 'Yazılım', 'Yazılım', 'Yazılım', 'Yazılım',
+        'Yazılım', 'Yazılım', 'Yazılım', 'Yazılım', 'Yazılım', 'Yazılım', 'Yazılım', 'Yazılım',
+        'Yazılım', 'Yazılım',
         # Staj
         'Staj', 'Staj', 'Staj', 'Staj', 'Staj', 
         # Eğitim
@@ -47,11 +49,12 @@ X_vectorized = vectorizer.fit_transform(df['soru'])
 model = LinearSVC()
 model.fit(X_vectorized, df['niyet'])
 
-# --- 3. KURUMSAL CEVAP HAVUZU (Bitirme Projesi Detayları Eklendi) ---
+# --- 3. KURUMSAL CEVAP HAVUZU (CAD Programları Detaylı Olarak Eklendi) ---
 CEVAPLAR = {
     'PLC': "**Otomasyon Kontrol Sistemleri:** Vanderlande stajımda **Siemens PLC (TIA Portal)** kullanarak sistem izleme ve temel müdahaleler yaptım. Ayrıca **Scada ve HMI** arayüz programlama prensiplerini uyguladım.",
-    'Yazılım': ("**Geliştirme & Proje Yetkinlikleri:** Python, C/C++ ve MS SQL gibi dillerde iyi seviyede yetkinliğe sahibim. Teknik becerilerimi kullanarak **SolidWorks** ile mekanik tasarımda bulundum. "
-                "Bitirme çalışmamda **Görüntü İşleme** ve **Sensör Füzyonu** tekniklerini uygulayarak **Otonom Araç Projesi** geliştirdim. Ayrıca **ROS2 (Robot İşletim Sistemi)** tecrübem bulunmaktadır."),
+    'Yazılım': ("**Geliştirme & Tasarım Yetkinlikleri:** Python, C/C++ ve MS SQL gibi dillerde iyi seviyede yetkinliğe sahibim. "
+                "**Tasarım yazılımları** olarak **SolidWorks (Mekanik Tasarım)** ve **Autocad** programlarını etkin kullanmaktayım. "
+                "Bitirme çalışmamda **Görüntü İşleme** ve **Sensör Füzyonu** tekniklerini uygulayarak **Otonom Araç Projesi** geliştirdim. Ayrıca ROS2 (Robot İşletim Sistemi) tecrübem, **Matlab/Simulink** ve temel **E-plan** bilgim bulunmaktadır."),
     'Staj': "**Saha Deneyimi:** Neocom'da **Zayıf Akım Sistemleri** (Kamera/Yangın/Anons) ve Vanderlande'da büyük ölçekli **Lojistik Otomasyon sistemlerinde** saha operasyonlarına destek vererek pratik tecrübe kazandım.",
     'Eğitim': "**Lisans Eğitimi:** Kocaeli Üniversitesi **Mekatronik Mühendisliği** (%30 İngilizce) bölümünden 2025 yılında başarıyla mezun oldum. Mühendislik temelimi bu alanda sağlamlaştırdım."
 }
@@ -73,7 +76,7 @@ with st.sidebar:
     st.header("🤖 CV Asistanı Hakkında") 
     st.info(
         "Bu Chatbot, Yahya Osman Tamdoğan'ın özgeçmişini temel alarak geliştirilmiş bir prototiptir. "
-        "Sorularınızı **Proje, Yazılım, PLC, Staj veya Eğitim** niyetlerinden birine göre sınıflandırarak yanıtlar."
+        "Sorularınızı **Yazılım, PLC, Staj veya Eğitim** niyetlerinden birine göre sınıflandırarak yanıtlar."
     )
     st.markdown("---")
     
