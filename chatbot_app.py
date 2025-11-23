@@ -4,34 +4,37 @@ from sklearn.svm import LinearSVC
 import pandas as pd
 import numpy as np
 
-# --- 1. GÜÇLENDİRİLMİŞ VERİ KÜMESİ (Niyet Tanıma İçin) ---
-# Sorular, CV'deki bilgilere göre (Eğitim, Yazılım, PLC vb.) sınıflandırılır.
+# --- 1. GÜÇLENDİRİLMİŞ VERİ KÜMESİ (Niyet Tanıma İçin SON DÜZELTME) ---
+# Eğitim ve Yazılım niyetleri, karıştırılmaması için daha fazla örnekle ayrıştırıldı.
 data = {
     'soru': [
         # PLC
         "PLC deneyimin var mı?", "TIA Portal biliyor musun?", "Siemens otomasyon tecrüben nedir?", 
         "HMI programlamayı biliyor musun?", "Otomasyon becerilerin neler?", 
-        # Yazılım
+        # Yazılım (Daha fazla kodlama kelimesi eklendi)
         "Python'da iyi misin?", "Hangi yazılım dillerini biliyorsun?", "Görüntü İşleme projen var mı?", 
         "ROS2 ile çalıştın mı?", "Sql biliyor musun?", "Kodlama yeteneklerin nelerdir?", "C++ bilgine ne dersin?", 
-        "Hangi dilleri biliyorsun?",
+        "Hangi dilleri biliyorsun?", "Hangi programlama dillerinde yetkinsin?", "Programlama tecrüben nedir?",
         # Staj
         "Vanderlande stajında ne yaptın?", "Neocom'da ne gibi işler yaptın?", "Staj tecrübelerinden bahseder misin?", 
         "Lojistik sistemlerde çalıştın mı?", "Neocom'daki görevin neydi?",
-        # Eğitim
+        # Eğitim (Daha fazla üniversite ve okul kelimesi eklendi)
         "Eğitim bilgilerini alabilir miyim?", "Hangi üniversiteden mezunsun?", "Mekatronik bilgin nedir?",
         "Diploman ne?", "Nerede okudun?", "Üniversitenin adı ne?", "Lisans derecen nedir?", "Okulun hakkında bilgi ver.",
-        "Mezun olduğun okul neresi?"
+        "Mezun olduğun okul neresi?", "Eğitim durumun nedir?", "Üniversite eğitimin hakkında konuşalım.", 
+        "Okulun nerede?"
     ],
     'niyet': [
         # PLC
         'PLC', 'PLC', 'PLC', 'PLC', 'PLC', 
         # Yazılım
-        'Yazılım', 'Yazılım', 'Yazılım', 'Yazılım', 'Yazılım', 'Yazılım', 'Yazılım', 'Yazılım', 
+        'Yazılım', 'Yazılım', 'Yazılım', 'Yazılım', 'Yazılım', 'Yazılım', 'Yazılım', 
+        'Yazılım', 'Yazılım', 'Yazılım',
         # Staj
         'Staj', 'Staj', 'Staj', 'Staj', 'Staj', 
         # Eğitim
-        'Eğitim', 'Eğitim', 'Eğitim', 'Eğitim', 'Eğitim', 'Eğitim', 'Eğitim', 'Eğitim', 'Eğitim'
+        'Eğitim', 'Eğitim', 'Eğitim', 'Eğitim', 'Eğitim', 'Eğitim', 'Eğitim', 'Eğitim', 'Eğitim', 
+        'Eğitim', 'Eğitim', 'Eğitim'
     ]
 }
 
@@ -44,7 +47,6 @@ model = LinearSVC()
 model.fit(X_vectorized, df['niyet'])
 
 # --- 3. KURUMSAL CEVAP HAVUZU (CV'deki bilgilere göre) ---
-# Bu bölümdeki metinler, önceki hatalara neden olan fazlalıklar olmadan tamamen temizlenmiştir.
 CEVAPLAR = {
     'PLC': "**Otomasyon Kontrol Sistemleri:** Vanderlande stajımda **Siemens PLC (TIA Portal)** kullanarak sistem izleme ve temel müdahaleler yaptım. Ayrıca **Scada ve HMI** arayüz programlama prensiplerini uyguladım.",
     'Yazılım': "**Geliştirme Yetkinlikleri:** Python, C/C++ ve MS SQL gibi dillerde iyi seviyede yetkinliğe sahibim. Otomasyon projelerindeki güçlü yönlerim arasında özellikle **Görüntü İşleme** ve **ROS2 (Robot İşletim Sistemi)** tecrübesi yer almaktadır.",
@@ -74,7 +76,6 @@ with st.sidebar:
     st.markdown("---")
     
     st.subheader("Hızlı Bağlantılar")
-    # LinkedIn linki, çalışmama sorununu gidermek için HTML formatına geçirildi.
     st.markdown(f"**LinkedIn:** <a href='{LINKEDIN_URL}' target='_blank'>Yahya Osman Tamdoğan LinkedIn Profilim</a>", unsafe_allow_html=True)
     
     # Sohbeti Temizle Butonu
