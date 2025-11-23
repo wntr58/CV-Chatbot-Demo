@@ -15,6 +15,7 @@ st.set_page_config(
 )
 
 # ==================== GÜÇLENDİRİLMİŞ VERİ SETİ ====================
+# Streamlit'in caching mekanizması kullanılarak veri yüklemesi hızlandırılır.
 @st.cache_data
 def load_training_data():
     """Eğitim verisini yükler ve önbelleğe alır"""
@@ -29,7 +30,7 @@ def load_training_data():
             "PLC ladder logic biliyor musun?", "HMI arayüz tasarlayabiliyor musun?",
             "Endüstriyel kontrol sistemleri deneyimin var mı?",
             
-            # Yazılım & Programlama (25 örnek)
+            # Yazılım & Programlama (25 örnek) - CAD/Proje soruları dahil
             "Python'da iyi misin?", "Hangi yazılım dillerini biliyorsun?", "Görüntü İşleme projen var mı?", 
             "ROS2 ile çalıştın mı?", "SQL biliyor musun?", "Kodlama yeteneklerin nelerdir?", 
             "C++ bilgine ne dersin?", "Hangi dilleri biliyorsun?", 
@@ -83,80 +84,58 @@ CEVAPLAR = {
 **🔧 Otomasyon Kontrol Sistemleri Yetkinliklerim:**
 
 📌 **PLC Programlama:**
-   • Siemens PLC sistemleri ile proje deneyimi
-   • TIA Portal (Totally Integrated Automation) kullanımı
-   • Ladder Logic ve Function Block programlama
+    • Siemens PLC sistemleri ile proje deneyimi
+    • TIA Portal (Totally Integrated Automation) kullanımı
+    • Ladder Logic ve Function Block programlama
 
 📌 **HMI & SCADA:**
-   • HMI arayüz tasarımı ve programlama
-   • SCADA sistemleri ile sistem izleme
-   • Operatör paneli konfigürasyonu
+    • HMI arayüz tasarımı ve programlama
+    • SCADA sistemleri ile sistem izleme
 
 📌 **Pratik Deneyim:**
-   • Vanderlande stajımda büyük ölçekli lojistik otomasyon sistemlerinde çalıştım
-   • Gerçek zamanlı sistem izleme ve arıza müdahalesi deneyimi
-   • Endüstriyel kontrol sistemleri entegrasyonu
+    • Vanderlande stajımda büyük ölçekli lojistik otomasyon sistemlerinde çalıştım
+    • Endüstriyel kontrol sistemleri entegrasyonu
         """
     },
     'Yazılım': {
-        'kisa': "Python, C/C++, SQL ve CAD programlarında yetkinim. ROS2 ve görüntü işleme deneyimim var.",
+        'kisa': "Python, C/C++, SQL, SolidWorks ve AutoCAD programlarında yetkinim. ROS2 ve görüntü işleme deneyimim var.",
         'detayli': """
 **💻 Yazılım & Tasarım Yetkinliklerim:**
 
 📌 **Programlama Dilleri:**
-   • Python (İyi Seviye) - Veri analizi, otomasyon, görüntü işleme
-   • C/C++ (İyi Seviye) - Gömülü sistemler, algoritma geliştirme
-   • SQL (MS SQL - İyi Seviye) - Veri tabanı yönetimi ve sorgulama
+    • **Python** (İyi Seviye) - Veri analizi, otomasyon, görüntü işleme
+    • **C/C++** (İyi Seviye) - Gömülü sistemler, algoritma geliştirme
+    • **MS SQL** (İyi Seviye) - Veri tabanı yönetimi
 
 📌 **CAD & Tasarım Yazılımları:**
-   • SolidWorks (İyi) - Mekanik tasarım ve montaj
-   • AutoCAD (İyi) - Teknik çizim ve 2D tasarım
-   • E-Plan (Temel) - Elektrik şema tasarımı
-   • MATLAB/Simulink (İyi) - Simülasyon ve analiz
-   • Ofis Programları (İyi) - MS Office Suite
+    • **SolidWorks** (İyi) - Mekanik tasarım ve montaj
+    • **AutoCAD** (İyi) - Teknik çizim ve 2D tasarım
+    • **MATLAB/Simulink** (İyi) - Simülasyon ve analiz
+    • **E-Plan** (Temel) - Elektrik şema tasarımı
 
-📌 **Robot & Otomasyon:**
-   • ROS2 (İyi Seviye) - Robot Operating System 2
-   • Görüntü İşleme (İyi Seviye) - OpenCV, Computer Vision
-   • Sensör Füzyonu - Çoklu sensör verisi entegrasyonu
+📌 **Robotik & Proje:**
+    • **ROS2** (İyi Seviye) - Robot Operating System 2
+    • **Görüntü İşleme** (İyi Seviye) - OpenCV, Computer Vision
+    • **Sensör Füzyonu** - Çoklu sensör verisi entegrasyonu
 
 📌 **Öne Çıkan Proje:**
-   🚗 **Otonom Araç Bitirme Projesi:**
-      - Görüntü işleme ve sensör füzyonu teknikleri kullanımı
-      - Gerçek zamanlı veri işleme ve karar verme algoritmaları
-      - ROS2 tabanlı yazılım mimarisi
+    🚗 **Otonom Araç Bitirme Projesi:** Görüntü işleme ve sensör füzyonu teknikleri kullanılarak ROS2 tabanlı yazılım mimarisiyle geliştirilmiştir.
         """
     },
     'Staj': {
-        'kisa': "Neocom ve Vanderlande'da staj yaptım.",
+        'kisa': "Neocom ve Vanderlande'da otomasyon ve zayıf akım sistemlerinde staj yaptım.",
         'detayli': """
 **🏢 İş Deneyimim:**
 
 📌 **Vanderlande Industries B.V. (Stajyer)**
-   📍 İstanbul Havalimanı, Lojistik/Otomasyon
-   📅 Ağustos 2025 - Eylül 2025
-   
-   • Bagaj taşıma ve lojistik otomasyon sistemlerinin saha operasyonlarına destek
-   • Siemens PLC (TIA Portal) kullanarak sistem izleme, hata tespiti ve temel müdahaleler
-   • Sensörler, motor sürücüleri ve konveyör hatlarının kontrolü üzerine uygulamalı deneyim
-   • Otomasyon ekibiyle birlikte arıza giderme, bakım ve sistem entegrasyonu çalışmaları
-   • SCADA ve HMI programlama deneyimi
+    📍 Lojistik/Otomasyon - İstanbul Havalimanı
+    • Siemens PLC (TIA Portal) kullanarak sistem izleme ve temel müdahaleler
+    • Sensörler, motor sürücüleri ve konveyör hatlarının kontrolü üzerine uygulamalı deneyim
 
 📌 **Neocom İletişim Teknolojleri A.Ş. (Stajyer)**
-   📍 Kıbrıs Ercan Havalimanı – Zayıf Akım Sistemleri
-   📅 Haziran 2023 - Eylül 2023
-   
-   • Kamera sistemlerinin kurulumu, IP ataması, devreye alınması ve test edilmesi
-   • Yangın panelleri kurulumu, dedektör adresleme ve senaryo testleri
-   • Acil anons sistemlerinin devreye alınması, arıza tespiti ve giderilmesi
-   • Proje planlarına uygun saha uygulamaları, kablolama ve sistem entegrasyonu
-   • Yapılan işlerin raporlanıp bildirilmesi
-
-**🎯 Kazanılan Deneyimler:**
-   ✓ Endüstriyel otomasyon sistemlerinde pratik deneyim
-   ✓ Ekip çalışması ve proje yönetimi
-   ✓ Problem çözme ve arıza giderme becerileri
-   ✓ Gerçek dünya mühendislik uygulamaları
+    📍 Zayıf Akım Sistemleri - Kıbrıs Ercan Havalimanı
+    • Kamera, Yangın paneli ve Acil anons sistemlerinin kurulumu ve devreye alınması
+    • Proje planlarına uygun saha uygulamaları ve sistem entegrasyonu
         """
     },
     'Eğitim': {
@@ -165,23 +144,14 @@ CEVAPLAR = {
 **🎓 Akademik Geçmişim:**
 
 📌 **Lisans Eğitimi:**
-   • **Üniversite:** Kocaeli Üniversitesi
-   • **Bölüm:** Mekatronik Mühendisliği (%30 İngilizce)
-   • **Dönem:** 2021 - 2025
-   • **Durum:** Mezun
-   • **Konum:** Kocaeli, Türkiye
+    • **Üniversite:** Kocaeli Üniversitesi
+    • **Bölüm:** Mekatronik Mühendisliği (%30 İngilizce)
+    • **Dönem:** 2021 - 2025
+    • **Durum:** Mezun
 
 📌 **Mekatronik Mühendisliği Uzmanlık Alanları:**
-   ✓ Mekanik Sistemler - Tasarım ve analiz
-   ✓ Elektronik & Kontrol - Devre tasarımı, PLC
-   ✓ Yazılım & Programlama - Algoritma geliştirme
-   ✓ Otomasyon Sistemleri - Endüstriyel uygulamalar
-   ✓ Robot Teknolojileri - ROS, kinematik, sensörler
-
-📌 **Disiplinler Arası Yetkinlik:**
-   Mekatronik mühendisliği, makine, elektrik-elektronik ve bilgisayar 
-   mühendisliğinin kesişim noktasında yer alır. Bu interdisipliner eğitim 
-   sayesinde karmaşık sistemleri bütünsel olarak tasarlayıp geliştirebiliyorum.
+    ✓ Mekanik, Elektronik, Kontrol ve Yazılım disiplinlerinin kesişim noktasında uzmanlık
+    ✓ Karmaşık otomasyon sistemlerini bütünsel olarak tasarlama ve geliştirme yeteneği
         """
     },
     'İletişim': {
@@ -190,54 +160,25 @@ CEVAPLAR = {
 **📞 İletişim ve Kişisel Bilgilerim:**
 
 📌 **İletişim Bilgileri:**
-   • **E-posta:** yahyaosman696@gmail.com
-   • **Telefon:** 0506 115 68 45
-   • **Konum:** İstanbul / Beşiktaş
-   • **LinkedIn:** [linkedin.com/in/yahyaosmantamdogan](https://www.linkedin.com/in/yahyaosmantamdogan)
-
-📌 **Kişisel Bilgiler:**
-   • **Ad-Soyad:** Yahya Osman Tamdoğan
-   • **Doğum Tarihi:** 19.08.2003 (21 yaşında)
-   • **Medeni Durum:** Bekar
-   • **Askerlik Durumu:** 2 yıl tecilli
-   • **Sürücü Belgesi:** B sınıfı
-
-📌 **Yabancı Dil:**
-   • **İngilizce:** B2 Seviyesi (Orta-İleri)
-   
-💼 Profesyonel işbirlikleri ve kariyer fırsatları için benimle iletişime geçmekten çekinmeyin!
+    • **E-posta:** yahyaosman696@gmail.com
+    • **Telefon:** 0506 115 68 45
+    • **LinkedIn:** [linkedin.com/in/yahyaosmantamdogan](https://www.linkedin.com/in/yahyaosmantamdogan)
+    
+📌 **Diğer:**
+    • **Konum:** İstanbul / Beşiktaş
+    • **Yabancı Dil:** İngilizce - B2 Seviyesi (Orta-İleri)
+    • **Askerlik:** 2 yıl tecilli | **Sürücü Belgesi:** B sınıfı
         """
     }
 }
 
 # ==================== ÖNERİLEN SORULAR ====================
 ORNEK_SORULAR = {
-    'PLC': [
-        "TIA Portal deneyimin var mı?",
-        "SCADA sistemleri hakkında ne biliyorsun?",
-        "PLC programlama yapabiliyor musun?"
-    ],
-    'Yazılım': [
-        "Python projelerini anlatır mısın?",
-        "Hangi CAD programlarını kullanıyorsun?",
-        "Otonom araç projen nasıl gelişti?",
-        "ROS2 deneyimin nedir?"
-    ],
-    'Staj': [
-        "Vanderlande stajında neler öğrendin?",
-        "Neocom'daki görevlerin nelerdi?",
-        "Saha deneyimin var mı?"
-    ],
-    'Eğitim': [
-        "Hangi üniversiteden mezunsun?",
-        "Mekatronik mühendisliği nedir?",
-        "Akademik geçmişin nasıl?"
-    ],
-    'İletişim': [
-        "Sana nasıl ulaşabilirim?",
-        "İletişim bilgilerin neler?",
-        "İngilizce seviyen nedir?"
-    ]
+    'PLC': ["TIA Portal deneyimin var mı?", "SCADA sistemleri hakkında ne biliyorsun?", "Endüstriyel otomasyon tecrüben nedir?"],
+    'Yazılım': ["Hangi CAD programlarını kullanıyorsun?", "Otonom araç projen nasıl gelişti?", "Sensör füzyonu kullandın mı?", "ROS2 deneyimin nedir?"],
+    'Staj': ["Vanderlande stajında neler öğrendin?", "Neocom'daki görevlerin nelerdi?", "Saha deneyimin var mı?"],
+    'Eğitim': ["Hangi üniversiteden mezunsun?", "Mekatronik mühendisliği nedir?", "Akademik geçmişin nasıl?"],
+    'İletişim': ["Sana nasıl ulaşabilirim?", "İletişim bilgilerin neler?", "İngilizce seviyen nedir?"]
 }
 
 # ==================== MODEL EĞİTİMİ ====================
@@ -254,11 +195,7 @@ def train_model():
     
     X_vectorized = vectorizer.fit_transform(df['soru'])
     
-    model = LinearSVC(
-        C=1.0,
-        max_iter=2000,
-        random_state=42
-    )
+    model = LinearSVC(C=1.0, max_iter=2000, random_state=42)
     model.fit(X_vectorized, df['niyet'])
     
     return vectorizer, model, X_vectorized, df
@@ -269,10 +206,12 @@ def niyet_siniflandir(soru, vectorizer, model, X_train, df):
     soru_vectorized = vectorizer.transform([soru])
     tahmin = model.predict(soru_vectorized)[0]
     
+    # Güven puanı hesaplama (confidence score)
     decision_scores = model.decision_function(soru_vectorized)[0]
     max_score = np.max(decision_scores)
     confidence = 1 / (1 + np.exp(-max_score))
     
+    # En benzer soruyu bulma (düşük güven için öneri)
     similarities = cosine_similarity(soru_vectorized, X_train)[0]
     max_similarity = np.max(similarities)
     most_similar_idx = np.argmax(similarities)
@@ -288,43 +227,17 @@ def format_cevap(niyet, detayli=True):
     """Cevabı formatlar"""
     cevap_dict = CEVAPLAR.get(niyet, {})
     return cevap_dict.get('detayli' if detayli else 'kisa', 
-                          "Bu konuda bilgi bulunamadı. Lütfen başka bir soru sorun.")
+                            "Bu konuda bilgi bulunamadı. Lütfen başka bir soru sorun.")
 
-def get_intent_color(niyet):
-    """Niyet için renk kodu döndürür"""
-    colors = {
-        'PLC': '#1E40AF',
-        'Yazılım': '#065F46',
-        'Staj': '#92400E',
-        'Eğitim': '#6B21A8',
-        'İletişim': '#9F1239'
-    }
-    return colors.get(niyet, '#64748B')
-
-# ==================== ÖZEL CSS STİLLERİ ====================
+# ==================== ÖZEL CSS STİLLERİ (Hata Düzeltildi) ====================
 def apply_custom_css():
+    """CSS stilini Streamlit'e uygular."""
     st.markdown("""
     <style>
-        /* Tema uyumlu arka plan renkleri */
+        /* Temel Sidebar Stilleri */
         [data-testid="stSidebar"] {
             background-color: var(--background-color);
             border-right: 1px solid var(--border-color);
-        }
-        
-        /* Light mode için */
-        @media (prefers-color-scheme: light) {
-            [data-testid="stSidebar"] {
-                background-color: #F8FAFC;
-                border-right: 1px solid #E2E8F0;
-            }
-        }
-        
-        /* Dark mode için */
-        @media (prefers-color-scheme: dark) {
-            [data-testid="stSidebar"] {
-                background-color: #1E293B;
-                border-right: 1px solid #334155;
-            }
         }
         
         /* Ana başlık stili */
@@ -347,7 +260,7 @@ def apply_custom_css():
             margin-bottom: 2rem;
         }
         
-        /* Niyet badge'leri */
+        /* Niyet badge'leri - Hata alınan kısım doğru şekilde tırnak içine alındı */
         .intent-badge {
             display: inline-block;
             padding: 4px 12px;
@@ -357,6 +270,7 @@ def apply_custom_css():
             margin-top: 8px;
         }
         
+        /* Renkler (Light Mode) */
         .intent-plc { background-color: #DBEAFE; color: #1E40AF; }
         .intent-yazilim { background-color: #D1FAE5; color: #065F46; }
         .intent-staj { background-color: #FEF3C7; color: #92400E; }
@@ -372,52 +286,12 @@ def apply_custom_css():
             .intent-iletisim { background-color: #831843; color: #FCE7F3; }
         }
         
-        /* Buton stili */
+        /* Diğer UI iyileştirmeleri */
         .stButton>button {
             width: 100%;
             border-radius: 8px;
             font-weight: 600;
             transition: all 0.3s ease;
-        }
-        
-        .stButton>button:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 4px 12px rgba(0,0,0,0.15);
-        }
-        
-        /* Chat input stili */
-        .stChatInput>div {
-            border-radius: 12px;
-        }
-        
-        /* Scrollbar stilini iyileştir */
-        ::-webkit-scrollbar {
-            width: 8px;
-            height: 8px;
-        }
-        
-        ::-webkit-scrollbar-track {
-            background: transparent;
-        }
-        
-        ::-webkit-scrollbar-thumb {
-            background: #CBD5E1;
-            border-radius: 4px;
-        }
-        
-        ::-webkit-scrollbar-thumb:hover {
-            background: #94A3B8;
-        }
-        
-        /* Dark mode için scrollbar */
-        @media (prefers-color-scheme: dark) {
-            ::-webkit-scrollbar-thumb {
-                background: #475569;
-            }
-            
-            ::-webkit-scrollbar-thumb:hover {
-                background: #64748B;
-            }
         }
     </style>
     """, unsafe_allow_html=True)
@@ -432,7 +306,7 @@ def main():
     
     # ==================== SIDEBAR ====================
     with st.sidebar:
-        # Profil resmi - tema uyumlu
+        # Profil Resmi & Başlık
         st.markdown("""
         <div style='text-align: center; padding: 20px;'>
             <div style='background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); 
@@ -454,58 +328,18 @@ def main():
             "kategorize edilir: **PLC, Yazılım, Staj, Eğitim, İletişim**"
         )
         
-        # İstatistikler
-        st.markdown("---")
-        st.markdown("### 📊 Model İstatistikleri")
-        col1, col2 = st.columns(2)
-        with col1:
-            st.metric("Toplam Eğitim Verisi", f"{len(df)} soru")
-        with col2:
-            st.metric("Niyet Kategorisi", "5 adet")
-        
         # İletişim Bilgileri
         st.markdown("---")
         st.markdown("### 📞 İletişim Bilgileri")
         
-        col1, col2 = st.columns([1, 4])
-        with col1:
-            st.markdown("📧")
-        with col2:
-            st.markdown("[yahyaosman696@gmail.com](mailto:yahyaosman696@gmail.com)")
+        LINKEDIN_URL = "https://www.linkedin.com/in/yahyaosmantamdogan" # Lütfen kontrol edin
         
-        col1, col2 = st.columns([1, 4])
-        with col1:
-            st.markdown("📱")
-        with col2:
-            st.markdown("0506 115 68 45")
-        
-        col1, col2 = st.columns([1, 4])
-        with col1:
-            st.markdown("📍")
-        with col2:
-            st.markdown("İstanbul / Beşiktaş")
-        
-        col1, col2 = st.columns([1, 4])
-        with col1:
-            st.markdown("💼")
-        with col2:
-            LINKEDIN_URL = "https://www.linkedin.com/in/yahyaosmantamdogan"
-            st.markdown(f"[LinkedIn Profilim]({LINKEDIN_URL})")
-        
-        # Yabancı Dil
-        st.markdown("---")
-        st.markdown("### 🌍 Yabancı Dil")
-        st.markdown("🇬🇧 **İngilizce:** B2 (Orta-İleri)")
-        
-        # Kişisel Bilgiler
-        st.markdown("---")
-        st.markdown("### 👤 Kişisel Bilgiler")
-        st.markdown("""
-        - **Doğum Tarihi:** 19.08.2003
-        - **Medeni Durum:** Bekar
-        - **Askerlik:** 2 yıl tecilli
-        - **Sürücü Belgesi:** B sınıfı
-        """)
+        st.markdown(f"""
+        - 📧 [yahyaosman696@gmail.com](mailto:yahyaosman696@gmail.com)
+        - 📱 0506 115 68 45
+        - 💼 [LinkedIn Profilim]({LINKEDIN_URL})
+        - 📍 İstanbul / Beşiktaş
+        """, unsafe_allow_html=True)
         
         # Örnek Sorular
         st.markdown("---")
@@ -513,27 +347,23 @@ def main():
         
         kategori = st.selectbox(
             "Kategori seçin:",
-            ['PLC', 'Yazılım', 'Staj', 'Eğitim', 'İletişim']
+            ['Yazılım', 'PLC', 'Staj', 'Eğitim', 'İletişim']
         )
         
         for soru in ORNEK_SORULAR[kategori]:
             if st.button(soru, key=f"btn_{soru}", use_container_width=True):
                 st.session_state.ornek_soru = soru
+                st.rerun()
         
         # Sohbeti temizle
         st.markdown("---")
         if st.button("🗑️ Sohbeti Temizle", type="secondary", use_container_width=True):
             st.session_state.mesajlar = []
-            st.session_state.istatistikler = {
-                'toplam_soru': 0,
-                'niyet_dagilim': {'PLC': 0, 'Yazılım': 0, 'Staj': 0, 'Eğitim': 0, 'İletişim': 0}
-            }
             st.rerun()
         
         # Footer
         st.markdown("---")
         st.caption(f"Son güncelleme: {datetime.now().strftime('%d.%m.%Y')}")
-        st.caption("Streamlit + scikit-learn ile geliştirilmiştir")
     
     # ==================== ANA İÇERİK ====================
     st.markdown("<h1 class='main-header'>👨‍💻 Yahya Osman Tamdoğan</h1>", unsafe_allow_html=True)
@@ -543,12 +373,6 @@ def main():
     if "mesajlar" not in st.session_state:
         st.session_state.mesajlar = []
     
-    if "istatistikler" not in st.session_state:
-        st.session_state.istatistikler = {
-            'toplam_soru': 0,
-            'niyet_dagilim': {'PLC': 0, 'Yazılım': 0, 'Staj': 0, 'Eğitim': 0, 'İletişim': 0}
-        }
-    
     # Hoş geldin mesajı
     if len(st.session_state.mesajlar) == 0:
         with st.chat_message("assistant"):
@@ -556,8 +380,8 @@ def main():
 👋 **Merhaba! Yahya Osman Tamdoğan'ın CV Asistanına hoş geldiniz.**
 
 Aşağıdaki konularda bana soru sorabilirsiniz:
+- 💻 **Yazılım & Tasarım** (CAD, Python, Otonom Araç)
 - 🔧 **PLC ve Otomasyon** sistemleri
-- 💻 **Yazılım ve Programlama** becerileri  
 - 🏢 **Staj ve İş** deneyimleri
 - 🎓 **Eğitim** geçmişi
 - 📞 **İletişim ve Kişisel** bilgiler
@@ -574,9 +398,8 @@ Soldaki menüden örnek sorulara göz atabilir veya doğrudan soru sorabilirsini
             st.markdown(icerik)
             
             if gonderici == "assistant" and 'metadata' in msg:
-                metadata = msg['metadata']
-                niyet = metadata['niyet']
-                guven = metadata.get('guven', 0)
+                niyet = msg['metadata']['niyet']
+                guven = msg['metadata'].get('guven', 0)
                 
                 # Niyet badge'i
                 badge_class = f"intent-{niyet.lower()}"
@@ -586,20 +409,18 @@ Soldaki menüden örnek sorulara göz atabilir veya doğrudan soru sorabilirsini
                     unsafe_allow_html=True
                 )
     
-    # Örnek soru seçildiyse
+    # Örnek soru seçildiyse veya yeni soru girildiyse
+    prompt = None
     if 'ornek_soru' in st.session_state:
         prompt = st.session_state.ornek_soru
         del st.session_state.ornek_soru
     else:
-        prompt = st.chat_input("Bir soru sorun... (örn: 'Python bilgin nedir?' veya 'Staj deneyimlerini anlatır mısın?')")
+        prompt = st.chat_input("Bir soru sorun... (örn: 'Hangi CAD programlarını biliyorsun?' veya 'Bitirme projen neydi?')")
     
     # Kullanıcı sorusu işleme
     if prompt:
         # Kullanıcı mesajını göster
-        st.session_state.mesajlar.append({
-            'role': 'user',
-            'content': prompt
-        })
+        st.session_state.mesajlar.append({'role': 'user', 'content': prompt})
         
         with st.chat_message("user"):
             st.markdown(prompt)
@@ -615,14 +436,14 @@ Soldaki menüden örnek sorulara göz atabilir veya doğrudan soru sorabilirsini
                 # Cevap oluştur
                 cevap = format_cevap(niyet, detayli=True)
                 
-                # Düşük güven durumu
+                # Düşük güven durumu uyarısı
                 if guven < 0.5:
                     cevap = f"⚠️ Bu soruyu tam olarak anlayamadım (Güven: {guven:.0%}). " \
                             f"Belki şunu sormak istediniz: *\"{sonuc['en_benzer_soru']}\"*?\n\n{cevap}"
                 
                 st.markdown(cevap)
                 
-                # Metadata
+                # Metadata (Niyet & Güven)
                 badge_class = f"intent-{niyet.lower()}"
                 st.markdown(
                     f"<span class='intent-badge {badge_class}'>🏷️ {niyet}</span> "
@@ -640,10 +461,6 @@ Soldaki menüden örnek sorulara göz atabilir veya doğrudan soru sorabilirsini
                         'benzerlik': sonuc['benzerlik']
                     }
                 })
-                
-                # İstatistikleri güncelle
-                st.session_state.istatistikler['toplam_soru'] += 1
-                st.session_state.istatistikler['niyet_dagilim'][niyet] += 1
 
 if __name__ == "__main__":
     main()
