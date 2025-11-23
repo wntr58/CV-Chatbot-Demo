@@ -5,20 +5,19 @@ import pandas as pd
 import numpy as np
 
 # --- 1. GÜÇLENDİRİLMİŞ VERİ KÜMESİ (Niyet Tanıma İçin) ---
-# Model, bu soru-cevap eşleşmelerini kullanarak niyetleri öğrenir.
 data = {
     'soru': [
         # PLC
         "PLC deneyimin var mı?", "TIA Portal biliyor musun?", "Siemens otomasyon tecrüben nedir?", 
         "HMI programlamayı biliyor musun?", "Otomasyon becerilerin neler?", 
-        # Yazılım (Daha fazla spesifik kodlama terimi eklendi)
+        # Yazılım
         "Python'da iyi misin?", "Hangi yazılım dillerini biliyorsun?", "Görüntü İşleme projen var mı?", 
         "ROS2 ile çalıştın mı?", "Sql biliyor musun?", "Kodlama yeteneklerin nelerdir?", "C++ bilgine ne dersin?", 
         "Hangi dilleri biliyorsun?",
         # Staj
         "Vanderlande stajında ne yaptın?", "Neocom'da ne gibi işler yaptın?", "Staj tecrübelerinden bahseder misin?", 
         "Lojistik sistemlerde çalıştın mı?", "Neocom'daki görevin neydi?",
-        # Eğitim (Üniversite ve okul odaklı sorular eklendi)
+        # Eğitim
         "Eğitim bilgilerini alabilir miyim?", "Hangi üniversiteden mezunsun?", "Mekatronik bilgin nedir?",
         "Diploman ne?", "Nerede okudun?", "Üniversitenin adı ne?", "Lisans derecen nedir?", "Okulun hakkında bilgi ver.",
         "Mezun olduğun okul neresi?"
@@ -60,19 +59,21 @@ def niyet_siniflandir_ve_cevapla(soru):
 # --- 4. STREAMLIT ARAYÜZÜ ---
 st.set_page_config(page_title="Yahya Osman Tamdoğan CV Chatbot", layout="wide")
 
+# **ÖNEMLİ DÜZELTME:** Lütfen bu adresi kendi gerçek LinkedIn URL'nizle değiştirin!
+LINKEDIN_URL = "https://www.linkedin.com/in/yahyaosmantamdogan" 
+
 # Kenar çubuğu (Sidebar)
 with st.sidebar:
-    st.image("https://upload.wikimedia.org/wikipedia/commons/thumb/e/e0/Robot_icon.svg/1024px-Robot_icon.svg.png", width=100)
-    st.header("🤖 CV Asistanı Hakkında")
+    st.header("🤖 CV Asistanı Hakkında") # Kırık görsel kaldırıldı, emoji eklendi
     st.info(
-        "Bu Chatbot, Yahya Osman Tamdoğan'ın özgeçmişini temel alarak geliştirilmiş bir prototiptir. "
+        [cite_start]"Bu Chatbot, Yahya Osman Tamdoğan'ın özgeçmişini [cite: 2, 44] temel alarak geliştirilmiş bir prototiptir. "
         "Sorularınızı **PLC, Yazılım, Staj veya Eğitim** niyetlerinden birine göre sınıflandırarak yanıtlar."
     )
     st.markdown("---")
     
     st.subheader("Hızlı Bağlantılar")
-    # LÜTFEN AŞAĞIDAKİ URL'Yİ KENDİ GERÇEK LINKEDIN ADRESİNİZLE DEĞİŞTİRİN
-    st.markdown(f"**LinkedIn:** [Yahya Osman Tamdoğan LinkedIn Bağlantısı](https://www.linkedin.com/in/yahyaosmantamdogan)") 
+    # LinkedIn linki HTML formatına geçirildi ve yeni sekmede açılacak şekilde düzenlendi.
+    st.markdown(f"**LinkedIn:** <a href='{LINKEDIN_URL}' target='_blank'>Yahya Osman Tamdoğan LinkedIn Profilim</a>", unsafe_allow_html=True)
     
     # Sohbeti Temizle Butonu
     st.markdown("---")
