@@ -4,21 +4,22 @@ from sklearn.svm import LinearSVC
 import pandas as pd
 import numpy as np
 
-# --- 1. GÜÇLENDİRİLMİŞ VERİ KÜMESİ (Niyet Tanıma İçin SON DÜZELTME) ---
-# Eğitim ve Yazılım niyetleri, karıştırılmaması için daha fazla örnekle ayrıştırıldı.
+# --- 1. GÜÇLENDİRİLMİŞ VERİ KÜMESİ (Niyet Tanıma İçin) ---
 data = {
     'soru': [
         # PLC
         "PLC deneyimin var mı?", "TIA Portal biliyor musun?", "Siemens otomasyon tecrüben nedir?", 
         "HMI programlamayı biliyor musun?", "Otomasyon becerilerin neler?", 
-        # Yazılım (Daha fazla kodlama kelimesi eklendi)
+        # Yazılım (Bitirme projesi ve SolidWorks soruları eklendi)
         "Python'da iyi misin?", "Hangi yazılım dillerini biliyorsun?", "Görüntü İşleme projen var mı?", 
         "ROS2 ile çalıştın mı?", "Sql biliyor musun?", "Kodlama yeteneklerin nelerdir?", "C++ bilgine ne dersin?", 
         "Hangi dilleri biliyorsun?", "Hangi programlama dillerinde yetkinsin?", "Programlama tecrüben nedir?",
+        "Bitirme projen neydi?", "Otonom araç projesini anlatır mısın?", "Solidworks bilgin nedir?",
+        "Sensör füzyonu kullandın mı?", "Hangi CAD programlarını biliyorsun?",
         # Staj
         "Vanderlande stajında ne yaptın?", "Neocom'da ne gibi işler yaptın?", "Staj tecrübelerinden bahseder misin?", 
         "Lojistik sistemlerde çalıştın mı?", "Neocom'daki görevin neydi?",
-        # Eğitim (Daha fazla üniversite ve okul kelimesi eklendi)
+        # Eğitim
         "Eğitim bilgilerini alabilir miyim?", "Hangi üniversiteden mezunsun?", "Mekatronik bilgin nedir?",
         "Diploman ne?", "Nerede okudun?", "Üniversitenin adı ne?", "Lisans derecen nedir?", "Okulun hakkında bilgi ver.",
         "Mezun olduğun okul neresi?", "Eğitim durumun nedir?", "Üniversite eğitimin hakkında konuşalım.", 
@@ -28,8 +29,8 @@ data = {
         # PLC
         'PLC', 'PLC', 'PLC', 'PLC', 'PLC', 
         # Yazılım
-        'Yazılım', 'Yazılım', 'Yazılım', 'Yazılım', 'Yazılım', 'Yazılım', 'Yazılım', 
-        'Yazılım', 'Yazılım', 'Yazılım',
+        'Yazılım', 'Yazılım', 'Yazılım', 'Yazılım', 'Yazılım', 'Yazılım', 'Yazılım', 'Yazılım', 
+        'Yazılım', 'Yazılım', 'Yazılım', 'Yazılım', 'Yazılım', 'Yazılım', 'Yazılım',
         # Staj
         'Staj', 'Staj', 'Staj', 'Staj', 'Staj', 
         # Eğitim
@@ -46,10 +47,11 @@ X_vectorized = vectorizer.fit_transform(df['soru'])
 model = LinearSVC()
 model.fit(X_vectorized, df['niyet'])
 
-# --- 3. KURUMSAL CEVAP HAVUZU (CV'deki bilgilere göre) ---
+# --- 3. KURUMSAL CEVAP HAVUZU (Bitirme Projesi Detayları Eklendi) ---
 CEVAPLAR = {
     'PLC': "**Otomasyon Kontrol Sistemleri:** Vanderlande stajımda **Siemens PLC (TIA Portal)** kullanarak sistem izleme ve temel müdahaleler yaptım. Ayrıca **Scada ve HMI** arayüz programlama prensiplerini uyguladım.",
-    'Yazılım': "**Geliştirme Yetkinlikleri:** Python, C/C++ ve MS SQL gibi dillerde iyi seviyede yetkinliğe sahibim. Otomasyon projelerindeki güçlü yönlerim arasında özellikle **Görüntü İşleme** ve **ROS2 (Robot İşletim Sistemi)** tecrübesi yer almaktadır.",
+    'Yazılım': ("**Geliştirme & Proje Yetkinlikleri:** Python, C/C++ ve MS SQL gibi dillerde iyi seviyede yetkinliğe sahibim. Teknik becerilerimi kullanarak **SolidWorks** ile mekanik tasarımda bulundum. "
+                "Bitirme çalışmamda **Görüntü İşleme** ve **Sensör Füzyonu** tekniklerini uygulayarak **Otonom Araç Projesi** geliştirdim. Ayrıca **ROS2 (Robot İşletim Sistemi)** tecrübem bulunmaktadır."),
     'Staj': "**Saha Deneyimi:** Neocom'da **Zayıf Akım Sistemleri** (Kamera/Yangın/Anons) ve Vanderlande'da büyük ölçekli **Lojistik Otomasyon sistemlerinde** saha operasyonlarına destek vererek pratik tecrübe kazandım.",
     'Eğitim': "**Lisans Eğitimi:** Kocaeli Üniversitesi **Mekatronik Mühendisliği** (%30 İngilizce) bölümünden 2025 yılında başarıyla mezun oldum. Mühendislik temelimi bu alanda sağlamlaştırdım."
 }
@@ -71,7 +73,7 @@ with st.sidebar:
     st.header("🤖 CV Asistanı Hakkında") 
     st.info(
         "Bu Chatbot, Yahya Osman Tamdoğan'ın özgeçmişini temel alarak geliştirilmiş bir prototiptir. "
-        "Sorularınızı **PLC, Yazılım, Staj veya Eğitim** niyetlerinden birine göre sınıflandırarak yanıtlar."
+        "Sorularınızı **Proje, Yazılım, PLC, Staj veya Eğitim** niyetlerinden birine göre sınıflandırarak yanıtlar."
     )
     st.markdown("---")
     
@@ -98,7 +100,7 @@ for gonderici, mesaj, niyet in st.session_state.mesajlar:
         st.caption(f"**Tahmin Edilen Niyet:** :blue[{niyet}]")
 
 # Kullanıcı girişi ve cevaplama döngüsü
-if prompt := st.chat_input("Örneğin: 'Hangi üniversiteden mezunsun?' veya 'Görüntü işleme tecrüben var mı?'"):
+if prompt := st.chat_input("Örneğin: 'SolidWorks biliyor musun?' veya 'Bitirme projen neydi?'"):
     
     # 1. Kullanıcı mesajı
     st.session_state.mesajlar.append(("user", prompt, None))
